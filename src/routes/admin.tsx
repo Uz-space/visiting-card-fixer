@@ -116,13 +116,19 @@ function AdminPage() {
       .insert({ label: "Yangi havola", url: "https://", sort_order: links.length + 1 })
       .select("id,label,url,sort_order,is_visible")
       .single();
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     setLinks((prev) => [...prev, data as LinkRow]);
   }
 
   async function removeLink(id: string) {
     const { error } = await supabase.from("links").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     setLinks((prev) => prev.filter((l) => l.id !== id));
   }
 
